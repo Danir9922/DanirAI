@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>DanirAI — искусственный интеллект нового поколения</title>
+<meta name="description" content="DanirAI: модели DanirAI-1v и DanirAI-1 PRO, Deep Research, генерация изображений и видео, агент с доступом в интернет.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-size='32' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="boot">
+  <div class="boot-logo">
+    <svg viewBox="0 0 64 64" width="64" height="64"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#bg1)"/><text x="32" y="45" font-size="34" text-anchor="middle" fill="#fff" font-family="Arial" font-weight="bold">D</text></svg>
+    <div class="boot-text">DanirAI загружается<span class="dots"><i>.</i><i>.</i><i>.</i></span></div>
+  </div>
+</div>
+
+<!-- ============ ЭКРАН ВХОДА / РЕГИСТРАЦИИ ============ -->
+<section id="screen-auth" class="hidden">
+  <div class="auth-wrap">
+    <div class="auth-hero">
+      <div class="brand">
+        <span class="brand-logo"><svg viewBox="0 0 64 64" width="40" height="40"><defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#bg2)"/><text x="32" y="45" font-size="34" text-anchor="middle" fill="#fff" font-family="Arial" font-weight="bold">D</text></svg></span>
+        <span class="brand-name">Danir<b>AI</b></span>
+        <span class="brand-ver">v1.0</span>
+      </div>
+      <h1>Искусственный интеллект,<br>который <span class="grad-text">думает как человек</span><br>и знает как интернет</h1>
+      <p class="hero-sub">Модели DanirAI-1v и DanirAI-1 PRO, Deep Research с поиском в интернете, генерация изображений и видео, автономный агент. У каждого пользователя — свои чаты, свой профиль, своя история.</p>
+      <div class="hero-models" id="hero-models"></div>
+      <div class="hero-stats">
+        <div><b>6</b><span>моделей</span></div>
+        <div><b>∞</b><span>чатов</span></div>
+        <div><b>3</b><span>тарифа</span></div>
+        <div><b>24/7</b><span>онлайн</span></div>
+      </div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Вход</button>
+        <button class="auth-tab" data-tab="register">Регистрация</button>
+      </div>
+      <form id="form-login" class="auth-form">
+        <label>Email<input type="email" name="email" placeholder="you@example.com" required autocomplete="email"></label>
+        <label>Пароль<input type="password" name="password" placeholder="••••••••" required autocomplete="current-password"></label>
+        <button class="btn btn-primary btn-big" type="submit">Войти в DanirAI</button>
+        <div class="auth-error" id="login-error"></div>
+      </form>
+      <form id="form-register" class="auth-form hidden">
+        <label>Имя<input type="text" name="display_name" placeholder="Как вас зовут?" maxlength="80"></label>
+        <label>Email<input type="email" name="email" placeholder="you@example.com" required autocomplete="email"></label>
+        <label>Пароль<input type="password" name="password" placeholder="Минимум 6 символов" minlength="6" required autocomplete="new-password"></label>
+        <button class="btn btn-primary btn-big" type="submit">Создать аккаунт бесплатно</button>
+        <div class="auth-hint">Первый аккаунт получает права администратора платформы.</div>
+        <div class="auth-error" id="register-error"></div>
+      </form>
+    </div>
+  </div>
+  <div class="auth-plans" id="auth-plans"></div>
+</section>
+
+<!-- ============ ОСНОВНОЙ ИНТЕРФЕЙС ============ -->
+<div id="app" class="hidden">
+  <aside id="sidebar">
+    <div class="side-top">
+      <div class="brand small">
+        <span class="brand-logo"><svg viewBox="0 0 64 64" width="30" height="30"><defs><linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#bg3)"/><text x="32" y="45" font-size="34" text-anchor="middle" fill="#fff" font-family="Arial" font-weight="bold">D</text></svg></span>
+        <span class="brand-name">Danir<b>AI</b></span>
+      </div>
+      <button class="icon-btn" id="btn-new-chat" title="Новый чат">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+    <div class="side-search"><input id="chat-search" placeholder="Поиск по чатам…"></div>
+    <nav class="side-tabs">
+      <button class="side-tab active" data-view="chat">💬 Чаты</button>
+      <button class="side-tab" data-view="gallery">🎨 Галерея</button>
+      <button class="side-tab" data-view="research">🔎 Research</button>
+      <button class="side-tab" data-view="plans">💎 Тарифы</button>
+      <button class="side-tab admin-only hidden" data-view="admin">🛡 Админ</button>
+    </nav>
+    <div id="chat-list" class="chat-list"></div>
+    <div class="side-bottom">
+      <button class="user-chip" id="btn-profile">
+        <span class="avatar" id="user-avatar">?</span>
+        <span class="user-meta"><b id="user-name">…</b><span class="tier-badge" id="user-tier">FREE</span></span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <main id="main">
+    <!-- ВЬЮ: ЧАТ -->
+    <section id="view-chat" class="view active">
+      <header class="topbar">
+        <div class="model-picker" id="model-picker">
+          <button class="model-btn" id="model-btn"><span id="model-icon">⚡</span> <span id="model-name">DanirAI-1v</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="model-menu hidden" id="model-menu"></div>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-btn" id="btn-share" title="Поделиться чатом"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+          <button class="icon-btn" id="btn-clear-chat" title="Удалить чат"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>
+        </div>
+      </header>
+      <div id="messages" class="messages"></div>
+      <div class="composer-wrap">
+        <div class="mode-chips" id="mode-chips">
+          <button class="chip active" data-mode="chat">💬 Чат</button>
+          <button class="chip" data-mode="image">🎨 Картинка</button>
+          <button class="chip" data-mode="video">🎬 Видео</button>
+          <button class="chip" data-mode="research">🔎 Исследование</button>
+        </div>
+        <form id="composer" class="composer">
+          <textarea id="input" rows="1" placeholder="Спросите DanirAI о чём угодно…"></textarea>
+          <button class="send-btn" id="btn-send" type="submit" title="Отправить">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </form>
+        <div class="composer-hint" id="composer-hint">DanirAI может ошибаться. Проверяйте важную информацию.</div>
+      </div>
+    </section>
+
+    <!-- ВЬЮ: ГАЛЕРЕЯ -->
+    <section id="view-gallery" class="view">
+      <header class="topbar"><h2>🎨 Галерея генераций</h2><button class="btn btn-ghost" id="btn-refresh-gallery">Обновить</button></header>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+
+    <!-- ВЬЮ: ИССЛЕДОВАНИЕ -->
+    <section id="view-research" class="view">
+      <header class="topbar"><h2>🔎 DanirAI Deep Research</h2></header>
+      <div class="research-wrap">
+        <div class="research-box">
+          <textarea id="research-input" rows="3" placeholder="Опишите тему для глубокого исследования… Например: «Рынок электромобилей в Казахстане: динамика, игроки, прогнозы»"></textarea>
+          <div class="research-controls">
+            <select id="research-depth">
+              <option value="1">Быстрый обзор</option>
+              <option value="2" selected>Стандартное исследование</option>
+              <option value="3">Максимально глубокое</option>
+            </select>
+            <button class="btn btn-primary" id="btn-research">Исследовать</button>
+          </div>
+        </div>
+        <div id="research-result" class="research-result"></div>
+      </div>
+    </section>
+
+    <!-- ВЬЮ: ТАРИФЫ -->
+    <section id="view-plans" class="view">
+      <header class="topbar"><h2>💎 Тарифы DanirAI</h2></header>
+      <div class="plans-wrap">
+        <div class="plans-grid" id="plans-grid"></div>
+        <div class="payments-block">
+          <h3>История платежей</h3>
+          <div id="payments-list" class="payments-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ВЬЮ: АДМИН -->
+    <section id="view-admin" class="view">
+      <header class="topbar"><h2>🛡 Панель администратора</h2><button class="btn btn-ghost" id="btn-admin-refresh">Обновить</button></header>
+      <div class="admin-wrap" id="admin-wrap"></div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ МОДАЛКИ ============ -->
+<div class="modal-backdrop hidden" id="modal-profile">
+  <div class="modal">
+    <div class="modal-head"><h3>Профиль DanirAI</h3><button class="icon-btn modal-close">×</button></div>
+    <div class="modal-body">
+      <div class="profile-top">
+        <div class="avatar big" id="profile-avatar">?</div>
+        <div class="profile-actions">
+          <label class="btn btn-ghost">Загрузить фото<input type="file" id="avatar-file" accept="image/*" hidden></label>
+          <button class="btn btn-ghost" id="btn-avatar-gen">✨ Сгенерировать аватар</button>
+          <button class="btn btn-ghost" id="btn-logout">Выйти</button>
+        </div>
+      </div>
+      <label>Имя<input id="profile-name" maxlength="80"></label>
+      <label>О себе<input id="profile-bio" maxlength="500" placeholder="Пара слов о вас"></label>
+      <label>Новый пароль<input id="profile-pass" type="password" placeholder="Оставьте пустым, чтобы не менять"></label>
+      <button class="btn btn-primary" id="btn-save-profile">Сохранить</button>
+      <div class="profile-stats" id="profile-stats"></div>
+      <div class="keys-block">
+        <h4>🔑 API-ключи (для своих программ)</h4>
+        <div id="keys-list"></div>
+        <div class="keys-row">
+          <input id="key-name" placeholder="Название ключа">
+          <button class="btn btn-ghost" id="btn-key-create">Создать ключ</button>
+        </div>
+        <div class="key-secret hidden" id="key-secret"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal-payment">
+  <div class="modal narrow">
+    <div class="modal-head"><h3>Оплата тарифа</h3><button class="icon-btn modal-close">×</button></div>
+    <div class="modal-body" id="payment-body"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal-image">
+  <div class="modal wide">
+    <div class="modal-head"><h3 id="image-modal-title">Изображение</h3><button class="icon-btn modal-close">×</button></div>
+    <div class="modal-body center"><img id="image-modal-img" alt=""><div class="modal-actions"><a id="image-modal-link" class="btn btn-ghost" download>Скачать</a></div></div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="js/markdown.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
